@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { RegisterRequest } from '../../types/registerRequest';
 import { User } from '../../../shared/types/user';
 import { ActionTypes } from '../actionTypes';
+import { ServiceErrors } from 'src/app/shared/types/serviceErrors';
 
 export const registerAction = createAction(
   ActionTypes.REGISTER,
@@ -13,4 +14,7 @@ export const registerSuccessAction = createAction(
   props<{ user: User }>()
 );
 
-export const registerFailureAction = createAction(ActionTypes.REGISTER_FAILURE);
+export const registerFailureAction = createAction(
+  ActionTypes.REGISTER_FAILURE,
+  props<{ errors: ServiceErrors }>()
+);

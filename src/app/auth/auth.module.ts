@@ -10,34 +10,26 @@ import { AuthService } from './services/auth.service';
 import { EffectsModule } from '@ngrx/effects';
 import { RegisterEffect } from './store/effects/register.effects';
 
-
-
-
 const routes: Routes = [
-    {
-      path:"sign-in",
-      component:LoginComponent
-    },
-    {
-      path:"sign-up",
-      component:RegisterComponent
-    }
-  ];
+  {
+    path: 'sign-in',
+    component: LoginComponent,
+  },
+  {
+    path: 'sign-up',
+    component: RegisterComponent,
+  },
+];
 
 @NgModule({
-  imports: 
-  [CommonModule,
-   RouterModule.forChild(routes),
-   ReactiveFormsModule,
-   StoreModule.forFeature('auth',reducers),
-   EffectsModule.forFeature([RegisterEffect])
-],
-  declarations: [
-    RegisterComponent,
-    LoginComponent
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    ReactiveFormsModule,
+    StoreModule.forFeature('auth', reducers),
+    EffectsModule.forFeature([RegisterEffect]),
   ],
-  providers:[AuthService]
+  declarations: [RegisterComponent, LoginComponent],
+  providers: [AuthService],
 })
-
-
 export class AuthModule {}
