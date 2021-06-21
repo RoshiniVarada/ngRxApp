@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -10,7 +11,9 @@ import { registerAction, registerFailureAction, registerSuccessAction } from '..
 
 @Injectable()
 export class RegisterEffect {
-constructor(private actions$: Actions, private authService: AuthService) {}
+constructor(private actions$: Actions,
+  private router:Router,
+   private authService: AuthService) {}
 
   register$ = createEffect(() =>
     this.actions$.pipe(
@@ -18,6 +21,7 @@ constructor(private actions$: Actions, private authService: AuthService) {}
       switchMap(({request}) => {
         return this.authService.register(request).pipe(
           map((user: User) => {
+            this.router.navigate(['/dashboard']);
             return registerSuccessAction({user})
           }),
 
