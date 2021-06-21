@@ -5,5 +5,5 @@ export interface authState{
     isSubmitting:boolean,
     user:User | null,
     isLoggedIn: boolean | null,
-    validationErrors :ServiceErrors | null
+    validationErrors :ServiceErrors | string | null
 }

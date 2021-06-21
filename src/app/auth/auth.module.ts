@@ -9,6 +9,8 @@ import { reducers } from './store/reducers';
 import { AuthService } from './services/auth.service';
 import { EffectsModule } from '@ngrx/effects';
 import { RegisterEffect } from './store/effects/register.effects';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AuthGuard } from './backend/auth.guard';
 
 const routes: Routes = [
   {
@@ -19,6 +21,15 @@ const routes: Routes = [
     path: 'sign-up',
     component: RegisterComponent,
   },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    component: LoginComponent,
+  }
 ];
 
 @NgModule({
@@ -29,7 +40,9 @@ const routes: Routes = [
     StoreModule.forFeature('auth', reducers),
     EffectsModule.forFeature([RegisterEffect]),
   ],
-  declarations: [RegisterComponent, LoginComponent],
-  providers: [AuthService],
+  declarations: [RegisterComponent, LoginComponent, DashboardComponent],
+  providers: [
+    AuthService
+  ],
 })
 export class AuthModule {}

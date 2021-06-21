@@ -33,6 +33,7 @@ const authReducer = createReducer(
     (state,action): authState => ({
       ...state,
       isSubmitting: false,
+      isLoggedIn:false,
       validationErrors:action.errors
     })
   )

@@ -6,23 +6,25 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { User } from 'src/app/shared/types/user';
 import { AuthService } from '../../services/auth.service';
-import { registerAction, registerFailureAction, registerSuccessAction } from '../actions/register.actions';
+import { loginAction, loginFailureAction, loginSuccessAction } from '../actions/login.actions';
+
 
 @Injectable()
-export class RegisterEffect {
+export class LoginEffect {
 constructor(private actions$: Actions, private authService: AuthService) {}
 
-  register$ = createEffect(() =>
+  login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(registerAction),
+      ofType(loginAction),
       switchMap(({request}) => {
-        return this.authService.register(request).pipe(
+        return this.authService.login(request).pipe(
           map((user: User) => {
-            return registerSuccessAction({user})
+              console.log(user);
+            return loginSuccessAction({user})
           }),
 
           catchError((errorResponse:HttpErrorResponse) => {
-            return of(registerFailureAction({errors:errorResponse.error}))
+            return of(loginFailureAction({errors:errorResponse.error}))
           })
         )
       })
