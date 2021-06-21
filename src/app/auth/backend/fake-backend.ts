@@ -80,9 +80,9 @@ export class BackendInterceptor implements HttpInterceptor {
           return oklogin({
             user: {
               id: userdata.id,
-              username: user.username,
-              email: user.email,
-              token: user.username + 'fake-jwt-token',
+              username: userdata.username,
+              email: userdata.email,
+              token: userdata.username + 'fake-jwt-token',
             },
           });
         }else{
