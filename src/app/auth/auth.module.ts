@@ -12,15 +12,19 @@ import { RegisterEffect } from './store/effects/register.effects';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './backend/auth.guard';
 import { LoginEffect } from './store/effects/login.effects';
+import { SecurityGuard } from './backend/security.guard';
 
 const routes: Routes = [
   {
     path: 'sign-in',
     component: LoginComponent,
+    canActivate: [SecurityGuard]
+
   },
   {
     path: 'sign-up',
     component: RegisterComponent,
+    canActivate: [SecurityGuard]
   },
   {
     path: 'dashboard',
@@ -30,6 +34,12 @@ const routes: Routes = [
   {
     path: '**',
     component: LoginComponent,
+    canActivate: [SecurityGuard]
+  },
+  {
+    path: '',
+    component: LoginComponent,
+    canActivate: [SecurityGuard]
   }
 ];
 

@@ -53,6 +53,16 @@ export class BackendInterceptor implements HttpInterceptor {
       const user = body.user;
       const finduser = users.find((x) => x.username === user.username);
       if (finduser) return error('is already registered');
+      let errors = { error: {} };
+      if(!finduser){
+        if(!user.username){
+          return error('username');
+        }else if(!user.password || user.password.length<10){
+          return error('password');
+        }else if(!user.email || !user.email.endsWith(".com")){
+          return error('email');
+        }
+      }
       return ok({
         user: {
           id: users.length + 1,
@@ -97,6 +107,7 @@ export class BackendInterceptor implements HttpInterceptor {
     function ok(body: authResponse) {
       users.push(body.user);
       localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('token', body.user.token);
       return of(new HttpResponse({ status: 200, body }));
     }
     function oklogin(body: authResponse) {
@@ -104,10 +115,14 @@ export class BackendInterceptor implements HttpInterceptor {
         return of(new HttpResponse({ status: 200, body }));
     }
 
-    function error(message: string | ServiceErrors) {
+    function error(message: string | any) {
       let errors = { error: {} };
-      if (typeof message == 'string') {
+      if (message === 'is already registered') {
+        console.log(message);
         errors.error = { user: message };
+      }else{
+        console.log(message);
+        errors.error = { [message]: 'is invalid' };
       }
       return throwError(errors);
     }
