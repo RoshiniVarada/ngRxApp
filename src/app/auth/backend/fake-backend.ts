@@ -66,19 +66,29 @@ export class BackendInterceptor implements HttpInterceptor {
     function authenticate() {
       const user = body.user;
       const data = isLoggedIn() ? true : false;
+      let userdata :any;
       if (!data) {
         const finduser = users.find(
-          (x) => x.username === user.username && x.token === user.token
+          (x) => x.username === user.username
         );
-        if (!finduser) return error('Username or email is incorrect');
-        return oklogin({
-          user: {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            token: 'fake-jwt-token',
-          },
-        });
+         userdata = users.filter(
+          (x) => x.username === user.username
+        );
+       
+        if(finduser){
+          console.log(userdata)
+          return oklogin({
+            user: {
+              id: userdata.id,
+              username: user.username,
+              email: user.email,
+              token: user.username + 'fake-jwt-token',
+            },
+          });
+        }else{
+          return error('not found');
+        }
+
       } else {
         return unauthorized();
       }
@@ -90,8 +100,7 @@ export class BackendInterceptor implements HttpInterceptor {
       return of(new HttpResponse({ status: 200, body }));
     }
     function oklogin(body: authResponse) {
-        users.push(body.user);
-        localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('token', body.user.token);
         return of(new HttpResponse({ status: 200, body }));
     }
 

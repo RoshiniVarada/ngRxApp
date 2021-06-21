@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { RegisterEffect } from './store/effects/register.effects';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './backend/auth.guard';
+import { LoginEffect } from './store/effects/login.effects';
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     StoreModule.forFeature('auth', reducers),
-    EffectsModule.forFeature([RegisterEffect]),
+    EffectsModule.forFeature([RegisterEffect,LoginEffect])
   ],
   declarations: [RegisterComponent, LoginComponent, DashboardComponent],
   providers: [
