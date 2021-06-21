@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 import { registerAction } from '../../store/actions/register.actions';
-import { isSubmittingSelector } from '../../store/selectors';
+import { errorMessage, isSubmittingSelector } from '../../store/selectors';
 import { User } from '../../../shared/types/user';
 import { RegisterRequest } from '../../types/registerRequest';
 
@@ -17,12 +17,20 @@ import { RegisterRequest } from '../../types/registerRequest';
 export class RegisterComponent implements OnInit {
   form: FormGroup;
   isSubmitting$: Observable<boolean>;
+  errorMessage: any;
 
   constructor(
     private fb: FormBuilder,
     private store: Store,
     private authService: AuthService
-  ) {}
+  ) {
+    this.store.pipe(select(errorMessage)).subscribe((errors:any) =>{
+      if(errors)
+      this.errorMessage= `${Object.keys(errors)[0]}  ${Object.values(errors)[0]}`;
+      console.log(this.errorMessage);
+   });
+   
+  }
 
   ngOnInit(): void {
     this.initializeForm();

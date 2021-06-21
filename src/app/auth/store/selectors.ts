@@ -20,3 +20,9 @@ export const isLoggedIn = createSelector(
   authFeatureSelector,
   (authState: authState) => authState.isLoggedIn
 );
+
+export const errorMessage = createSelector(
+  authFeatureSelector,
+  (authState: authState) => authState.validationErrors
+);
+

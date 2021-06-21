@@ -117,7 +117,7 @@ export class BackendInterceptor implements HttpInterceptor {
 
     function error(message: string | any) {
       let errors = { error: {} };
-      if (message === 'is already registered') {
+      if (message === 'is already registered' ||  message === "not found") {
         console.log(message);
         errors.error = { user: message };
       }else{

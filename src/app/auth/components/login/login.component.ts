@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { loginAction } from '../../store/actions/login.actions';
-import { isSubmittingSelector } from '../../store/selectors';
+import { errorMessage, isSubmittingSelector } from '../../store/selectors';
 import { LoginRequest } from '../../types/loginRequest';
 
 @Component({
@@ -14,11 +14,19 @@ import { LoginRequest } from '../../types/loginRequest';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   isSubmitting$: Observable<boolean>;
+  errorMessage: string;
+
 
   constructor(
     private fb: FormBuilder,
     private store: Store
-  ) {}
+  ) {
+    this.store.pipe(select(errorMessage)).subscribe((errors:any) =>{
+      if(errors)
+      this.errorMessage= `${Object.keys(errors)[0]}  ${Object.values(errors)[0]}`;
+      console.log(this.errorMessage);
+   });
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -26,7 +34,7 @@ export class LoginComponent implements OnInit {
   }
   initializeValue(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
-    console.log(this.isSubmitting$);
+   
   }
 
   initializeForm(): void {

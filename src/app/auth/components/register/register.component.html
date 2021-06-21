@@ -6,7 +6,7 @@
           <p class="text-xs-center">
             <a [routerLink]="['/sign-in']">Have an account?</a>
           </p>
-          ErrorMessages Placeholder
+          <p class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</p>
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <fieldset>
               <fieldset class="form-group">
